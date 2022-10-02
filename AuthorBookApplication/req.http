@@ -1,0 +1,31 @@
+GET http://localhost:8080/api/home
+###
+POST http://localhost:8080/authenticate
+content-type: application/json
+
+{
+    "username": "prashant",
+    "password": "demo@123"
+}
+
+###
+# Restricted endpoints
+###
+
+# director
+GET http://localhost:8080/api/movies
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXRlIjoiMjAyMi0wOS0yM1QwOTo0OToxMC42MjEyMjM2MDciLCJzdWIiOiJzdW1pdCIsInJvbGUiOiJ1c2VyIiwibWVzc2FnZSI6InNvbWUgb3RoZXIgbWVzc2FnZSIsImV4cCI6MTY2MzkwNzA1MCwiaWF0IjoxNjYzOTA2NzUwfQ.GHNiv67Hn6s4bhj_D9uWg0NnyfrZUJtOsnX82dUbqLCC3CG2R4ppU3eW2aryir3kDKJ_q7gdPWTgkzqKVvvg2Q
+###
+
+
+# admin
+GET http://localhost:8080/api/directors
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJkYXRlIjoiMjAyMi0wOS0yM1QwOTo0OToxMC42MjEyMjM2MDciLCJzdWIiOiJzdW1pdCIsInJvbGUiOiJ1c2VyIiwibWVzc2FnZSI6InNvbWUgb3RoZXIgbWVzc2FnZSIsImV4cCI6MTY2MzkwNzA1MCwiaWF0IjoxNjYzOTA2NzUwfQ.GHNiv67Hn6s4bhj_D9uWg0NnyfrZUJtOsnX82dUbqLCC3CG2R4ppU3eW2aryir3kDKJ_q7gdPWTgkzqKVvvg2Q
+
+###
+
+# sumit -> director
+# eyJhbGciOiJIUzUxMiJ9.eyJkYXRlIjoiMjAyMi0wOS0yM1QwOTo0OToxMC42MjEyMjM2MDciLCJzdWIiOiJzdW1pdCIsInJvbGUiOiJ1c2VyIiwibWVzc2FnZSI6InNvbWUgb3RoZXIgbWVzc2FnZSIsImV4cCI6MTY2MzkwNzA1MCwiaWF0IjoxNjYzOTA2NzUwfQ.GHNiv67Hn6s4bhj_D9uWg0NnyfrZUJtOsnX82dUbqLCC3CG2R4ppU3eW2aryir3kDKJ_q7gdPWTgkzqKVvvg2Q
+
+# syed -> admin
+# eyJhbGciOiJIUzUxMiJ9.eyJkYXRlIjoiMjAyMi0wOS0yM1QwOTo0OToyNi40NjQwODYzNDEiLCJzdWIiOiJzeWVkIiwicm9sZSI6InVzZXIiLCJtZXNzYWdlIjoic29tZSBvdGhlciBtZXNzYWdlIiwiZXhwIjoxNjYzOTA3MDY2LCJpYXQiOjE2NjM5MDY3NjZ9.7xaxP2skN7PRP56z5s2gMgzwmQ1qSiQqLy8CUIyLQe2b2t7PV0x0oNjnML_jqJ2C9Yau4iNoA7a0VHRV6D6P_A
