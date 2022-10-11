@@ -1,4 +1,4 @@
-package com.demo.config;
+package com.example.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.demo.filters.JwtRequestFilter;
+import com.example.filters.JwtRequestFilter;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -57,11 +59,9 @@ public class WebSecurityConfig {
 		httpSecurity.cors();
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
-					.antMatchers("/authenticate", "/api/home/**").permitAll()
-//					.antMatchers("/all/**").access("hasAnyRole('DIRECTOR','ADMIN')")
-					.antMatchers("/api/movies/**").access("hasRole('DIRECTOR')")
-					.antMatchers("/api/directors/**").access("hasRole('ADMIN')")
-				
+					.antMatchers("/api/v1/digitalbooks/author/**",
+								 "/api/v1/digitalbooks/author/signup").permitAll()
+
 				.anyRequest().authenticated().and()
 				.exceptionHandling()
 					.authenticationEntryPoint(jwtAuthenticationEntryPoint)

@@ -19,7 +19,6 @@ import com.example.service.ReaderAppService;
 
 @RestController
 @RequestMapping("/api/v1/digitalbooks/readers")
-@CrossOrigin
 public class ReaderAppController {
 	
 	@Autowired
@@ -57,7 +56,7 @@ public class ReaderAppController {
 	}
 	
 	@PostMapping("/{emailId}/books")  //5
-	public AuthorBook getBooksBySubscriptioId(@RequestParam int pid, @PathVariable String emailId) throws Exception{
+	public List<AuthorBook> getBooksBySubscriptioId(@RequestParam int pid, @PathVariable String emailId) throws Exception{
 		return readerService.getBookToSubscriptionId(emailId, pid);
 	}
 	

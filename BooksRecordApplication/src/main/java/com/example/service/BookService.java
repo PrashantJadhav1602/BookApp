@@ -22,7 +22,12 @@ public class BookService {
 
 	public Book getAllBooks(int id) throws BookException {
 		try {
-			return bookRepository.findById(id).get();
+			Book book = bookRepository.findById(id).get();
+			if(book !=null) {
+				return book;			
+			}else {
+				return null;
+			}
 		} catch (Exception e) {
 			throw new BookException("Get all Books Details Failed. getAllBooks method term,inated");
 		}

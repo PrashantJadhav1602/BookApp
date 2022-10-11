@@ -1,4 +1,4 @@
-package com.demo.utils;
+package com.example.utils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

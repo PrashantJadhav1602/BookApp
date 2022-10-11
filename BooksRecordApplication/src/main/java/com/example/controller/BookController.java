@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,6 @@ import com.example.service.BookService;
 
 @RestController
 @RequestMapping("/api/v1/digitalbooks/books")
-@CrossOrigin
 public class BookController {
 
 	@Autowired
@@ -32,7 +32,11 @@ public class BookController {
 
 	@GetMapping("/getBooks") // client
 	public Book getAllBooksById(@RequestParam int id) throws BookException {
-		kafkaTemplate.send(TOPIC, bookService.getAllBooks(id));
+			kafkaTemplate.send(TOPIC, bookService.getAllBooks(id));
+		return bookService.getAllBooks(id);
+	}
+	@GetMapping("/getBooks/{id}") // client
+	public Book getBooksById(@PathVariable int id) throws BookException {
 		return bookService.getAllBooks(id);
 	}
 

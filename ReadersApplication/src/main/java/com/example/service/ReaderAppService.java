@@ -76,7 +76,8 @@ public class ReaderAppService {
 			for (ReaderBook readerBook : readerBookList) {
 				int bookId = readerBook.getBookId();
 				AuthorBook book = bookRecordsClient.getBooks(bookId);
-				bookList.add(book);
+				if(book!=null) 
+					bookList.add(book);
 			}
 			return bookList;
 		} catch (Exception e) {
@@ -100,12 +101,14 @@ public class ReaderAppService {
 	}
 
 	// findByReaderBookBySubscriptioId
-	public AuthorBook getBookToSubscriptionId(String emailId, int pid) throws Exception {
+	public List<AuthorBook> getBookToSubscriptionId(String emailId, int pid) throws Exception {
+		List<AuthorBook> bookList = new ArrayList<>();
 		try {
+			System.out.println("<===== getBookToSubscriptionId");
 			ReaderBook readerBook = readerBookRepository.findByReaderBookBySubscriptioId(emailId, pid);
 			if (!(readerBook == null)) {
-
-				return bookRecordsClient.getBooks(readerBook.getBookId());
+				bookList.add(bookRecordsClient.getBooks(readerBook.getBookId()));
+				return bookList;
 			} else {
 				throw new ReaderException(
 						"Invalid Email Id or Subscription ID .ReaderAppService getBook using pid Failed");
