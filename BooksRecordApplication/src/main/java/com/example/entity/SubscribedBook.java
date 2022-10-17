@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class SubscribedBook {
 	private int bookId;
 	private String readerName;
 	private String readerEmailId;
-	private LocalDateTime subscribedDateTime;
+	private LocalDate subscribedDateTime;
 	
 	
 	public SubscribedBook() {
@@ -26,7 +27,7 @@ public class SubscribedBook {
 	}
 
 
-	public SubscribedBook(int bookId, String readerName, String readerEmailId,LocalDateTime subscribedDateTime ) {
+	public SubscribedBook(int bookId, String readerName, String readerEmailId,LocalDate subscribedDateTime ) {
 		super();
 		this.bookId = bookId;
 		this.readerName = readerName;
@@ -34,7 +35,7 @@ public class SubscribedBook {
 		this.subscribedDateTime = subscribedDateTime;
 	}
 
-	public SubscribedBook(int subscriptionId, int bookId, String readerName, String readerEmailId, LocalDateTime subscribedDateTime ) {
+	public SubscribedBook(int subscriptionId, int bookId, String readerName, String readerEmailId, LocalDate subscribedDateTime ) {
 		this(bookId,readerName,readerEmailId,subscribedDateTime);
 		this.subscriptionId = subscriptionId;
 	}
@@ -80,12 +81,12 @@ public class SubscribedBook {
 	}
 
 
-	public LocalDateTime getSubscribedDateTime() {
+	public LocalDate getSubscribedDateTime() {
 		return subscribedDateTime;
 	}
 
 
-	public void setSubscribedDateTime(LocalDateTime subscribedDateTime) {
+	public void setSubscribedDateTime(LocalDate subscribedDateTime) {
 		this.subscribedDateTime = subscribedDateTime;
 	}
 

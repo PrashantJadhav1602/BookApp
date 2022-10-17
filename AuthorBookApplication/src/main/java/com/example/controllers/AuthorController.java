@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,8 @@ public class AuthorController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsernameAndPassword(req);
 		System.out.println("after loadUserByUsernameAndPassword ==================================");
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token));
+		int authorId = userDetailsService.getAuthorId(req.getUsername(),req.getPassword());
+		return ResponseEntity.ok(new JwtResponse(token,authorId));
 
 	}
 
@@ -88,9 +90,13 @@ public class AuthorController {
 		AuthorBook book = authorService.getAuthorBookByBookId(bookId).get();
 	
 		System.out.println("Book ===> "+book);
-		kafkaTemplate.send(TOPIC,new Book(1,"ABC","category",1,52,null,"publisher",false));
-		System.out.println("Kaka Post ======================== ");
-		return authorService.blockUnblockBook(authorId,bookId, authorBook);
+//		int bookId, String title, String category, int authorId, double price, LocalDateTime publishDate,
+//		String publisher, boolean block
+		AuthorBook updatedBook = authorService.blockUnblockBook(authorId,bookId, authorBook);
+		Book newBook = new Book(updatedBook.getBookId(),updatedBook.getTitle(),updatedBook.getCategory(),updatedBook.getAuthorId(),updatedBook.getPrice(),updatedBook.getPublishDate(),updatedBook.getPublisher(),updatedBook.isBlock());
+		kafkaTemplate.send(TOPIC,newBook);
+		System.out.println("Kafka Post ======================== ");
+		return updatedBook;
 		
 	}
 	

@@ -17,6 +17,8 @@ import com.example.exception.ReaderException;
 import com.example.model.Book;
 import com.example.repository.BookAlertRepository;
 import com.example.repository.ReaderBookRepository;
+import com.example.sendemail.EmailDetails;
+import com.example.sendemail.EmailService;
 
 @Service
 public class ReaderAppService {
@@ -29,33 +31,30 @@ public class ReaderAppService {
 
 	@Autowired
 	private BookRecordsClient bookRecordsClient;
+	
+	@Autowired 
+	private EmailService emailService;
 
 	private static final String TOPIC = "topic-test";
 
 	@KafkaListener(topics = TOPIC, groupId = "group_id", containerFactory = "userKafkaListenerFactory")
 	public void consumeJson(Book book) {
-		System.out.println("************** book - > " + book);
-		System.out.println("book.getId() = > " + book.getBookId());
-
 		List<ReaderBook> list = readerBookRepository.findByReaderBookByBookId(book.getBookId());
-
-		System.out.println("list = > " + list);
-
-		AuthorBook authorBook = bookRecordsClient.getBooks(book.getBookId());
-		System.out.println(authorBook.toString());
-		String bookTitle = authorBook.getTitle();
-		LocalDateTime dateTime = LocalDateTime.now();
-		String alertMessage = bookTitle + " book is updated. Please visit site";
-		System.out.println("alertMessage | " + alertMessage);
-
 		for (ReaderBook readerBook : list) {
-			ReaderAlert readerAlert = new ReaderAlert(readerBook.getSubscriptionId(), readerBook.getReaderName(),
-					readerBook.getReaderEmailId(), alertMessage, dateTime);
-			bookAlertRepository.save(readerAlert);
-			System.out.println("readerBook = > " + readerBook);
+			sendMail(new EmailDetails(readerBook.getReaderEmailId(), "Hi "+readerBook.getReaderName()+
+					" your Subscribed Book: "+book.getTitle()+"is updated. Its Block status is: "+book.isBlock()+
+					". Thank you", "Subscribed Book Updates"));
+			System.out.println("MalSend ==== > readerBook = > " + readerBook);
 		}
 
 	}
+	
+	public String sendMail(EmailDetails details)
+    {
+        String status= emailService.sendSimpleMail(details);
+        System.out.println("status code => "+status);
+        return status;
+    }
 
 	public List<ReaderBook> getReaderBook(int bookId) {
 		return readerBookRepository.findByReaderBookByBookId(bookId);
@@ -123,6 +122,7 @@ public class ReaderAppService {
 	public boolean getRefundAvailability(String emailId, int bookId) throws ReaderException {
 		try {
 			ReaderBook readerBook = readerBookRepository.getValidBookToRead(emailId, bookId);
+			System.out.println("===> 1");
 			if (readerBook == null) {
 				return false;
 			} else {
@@ -134,10 +134,17 @@ public class ReaderAppService {
 				LocalDateTime toDateTime = LocalDateTime.now();
 				long days = subscribeDateTime.until(toDateTime, ChronoUnit.DAYS);
 				subscribeDateTime = subscribeDateTime.plusDays(days);
+				System.out.println("===> 2");
 
 				if (days > 0) {
 					return false;
 				} else {
+					System.out.println("===> 3");
+					ReaderBook uniqueBook= readerBookRepository.getValidBookToRead(emailId, bookId);
+					int subscribtionId = uniqueBook.getSubscriptionId();
+					System.out.println("===> 4 | subscribtionId = "+subscribtionId);
+					readerBookRepository.deleteById(subscribtionId);
+					System.out.println("===> 5");
 					return true;
 				}
 			}

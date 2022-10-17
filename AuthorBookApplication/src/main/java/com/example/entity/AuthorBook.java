@@ -20,7 +20,7 @@ public class AuthorBook {
 	private String category;
 	private int authorId;
 	private double price;
-	private LocalDateTime publishDate;
+	private LocalDate publishDate;
 	private String publisher;
 	private boolean block;
 	
@@ -29,7 +29,7 @@ public class AuthorBook {
 		super();
 	}
 	
-	public AuthorBook(String title, String category, int authorId, double price, LocalDateTime publishDate, String publisher, boolean block) {
+	public AuthorBook(String title, String category, int authorId, double price, LocalDate publishDate, String publisher, boolean block) {
 		super();
 		this.title = title;
 		this.category = category;
@@ -40,7 +40,7 @@ public class AuthorBook {
 		this.block = block;
 	}
 	
-	public AuthorBook(int bookId, String title, String category, int authorId, double price, LocalDateTime publishDate,
+	public AuthorBook(int bookId, String title, String category, int authorId, double price, LocalDate publishDate,
 			String publisher, boolean block) {
 		this(title, category, authorId, price, publishDate, publisher, block);
 		this.bookId = bookId;
@@ -75,10 +75,10 @@ public class AuthorBook {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public LocalDateTime getPublishDate() {
+	public LocalDate getPublishDate() {
 		return publishDate;
 	}
-	public void setPublishDate(LocalDateTime publishDate) {
+	public void setPublishDate(LocalDate publishDate) {
 		this.publishDate = publishDate;
 	}
 	public String getPublisher() {

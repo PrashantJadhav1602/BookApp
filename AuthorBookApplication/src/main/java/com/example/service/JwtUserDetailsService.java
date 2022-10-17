@@ -3,7 +3,7 @@ package com.example.service;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bouncycastle.openssl.PasswordException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -73,7 +73,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 				
 				return new User(
 						req.getUsername(), 
-//					"{noop}demo@123", 
 						req.getPassword(),
 						authorities
 						);
@@ -85,5 +84,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User not found with username: " + req.getUsername());
 		}
 //
+	}
+	
+	public int getAuthorId(String username, String password){
+		Author author = authorRepository.findByUsername(username);
+		return author.getId();
 	}
 }
